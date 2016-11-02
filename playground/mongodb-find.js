@@ -26,6 +26,7 @@ MongoClient.connect(url , (err, db) => {
     //     console.log('Unable to fetch todos', err);
     // });
 
+    // get all users where name = John
     db.collection('Users').find({name: 'John'}).toArray().then((docs) => {
         console.log('Users');
         console.log(JSON.stringify(docs, undefined, 2));

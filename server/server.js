@@ -1,4 +1,5 @@
 require('./config/config');
+
 const {ObjectID} = require('mongodb');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
@@ -77,6 +78,20 @@ app.patch('/todos/:id', (req, res) => {
         }
         res.send({todo});
     }).catch((err) => res.status(400).send);
+});
+
+// POST /users
+app.post('/users', (req, res) => {
+    let body = _.pick(req.body, ['email', 'password']);
+    let user = new User(body);
+
+    user.save().then(() => {
+        return user.generateAuthToken();
+    }).then((token) => {
+        res.header('x-auth', token).send(user);
+    }).catch((err) => {
+        res.status(400).send(err);
+    });
 });
 
 app.listen(port, () => {

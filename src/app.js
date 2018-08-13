@@ -23,7 +23,7 @@ app.use('/todo', todo);
 
 // Handle 404s
 app.use((req, res) => {
-  const err = new Error('Error: Page Not Found.');
+  const err = new Error('Page Not Found.');
   return res.status(404).json({ error: err });
 });
 

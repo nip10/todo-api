@@ -8,9 +8,20 @@ const isTest = NODE_ENV === 'test';
 const dburl = isTest ? MONGODB_URI_TEST : MONGODB_URI;
 
 mongoose.Promise = global.Promise;
-mongoose.connect(dburl, {
-  keepAlive: true,
-  reconnectTries: 10,
-});
+mongoose
+  .connect(
+    dburl,
+    {
+      keepAlive: true,
+      reconnectTries: 10,
+      useNewUrlParser: true,
+    }
+  )
+  .then(() => {
+    console.log('Connected to database.');
+  })
+  .catch(err => {
+    console.log('Conntection to database failed: ', err);
+  });
 
 module.exports = { mongoose };

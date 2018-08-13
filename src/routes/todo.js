@@ -29,7 +29,7 @@ router.get('/:id', authenticate, (req, res) => {
     _creator: req.user._id,
   })
     .then(todo => {
-      if (!todo) return res.status(404).send();
+      if (_.isNil(todo)) return res.status(404).send();
       return res.send({ todo });
     })
     .catch(err => res.status(400).send());
@@ -43,7 +43,7 @@ router.delete('/:id', authenticate, (req, res) => {
     _creator: req.user._id,
   })
     .then(todo => {
-      if (!todo) return res.status(404).send();
+      if (_.isNil(todo)) return res.status(404).send();
       return res.send({ todo });
     })
     .catch(err => res.status(400).send());
@@ -61,7 +61,7 @@ router.patch('/:id', authenticate, (req, res) => {
   }
   return Todo.findOneAndUpdate({ _id: id, _creator: req.user._id }, { $set: body }, { new: true })
     .then(todo => {
-      if (!todo) return res.status(404).send();
+      if (_.isNil(todo)) return res.status(404).send();
       return res.send({ todo });
     })
     .catch(err => res.status(400).send);

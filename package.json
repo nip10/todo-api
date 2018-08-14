@@ -4,11 +4,13 @@
   "description": "API to manage todo lists, built with Express",
   "main": "dist/app.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node dist/app.js",
     "build": "babel src -d dist",
-    "dev": "cross-env NODE_ENV=development nodemon src/app.js --exec babel-node",
-    "test": "cross-env NODE_ENV=test jest --env=node --forceExit",
-    "test-watch": "cross-env NODE_ENV=test jest --env=node --watchAll",
+    "start": "cross-env NODE_ENV=production node dist/app.js",
+    "watch": "cross-env NODE_ENV=development nodemon src/app.js --exec babel-node",
+    "test": "cross-env NODE_ENV=test jest --env=node --coverage --forceExit --verbose",
+    "test-watch": "cross-env NODE_ENV=test npm run test -- --watchAll",
+    "debug": "cross-env NODE_ENV=development node dist/app.js",
+    "debug-serve": "cross-env NODE_ENV=development nodemon --inspect src/app.js --exec babel-node",
     "lint": "eslint src/**"
   },
   "keywords": [
@@ -28,16 +30,20 @@
   "homepage": "https://github.com/nip10/node-course-2-todo-api#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "helmet": "^3.13.0",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
     "mongodb": "^3.1.1",
     "mongoose": "^5.2.7",
-    "validator": "^9.4.1"
+    "validator": "^9.4.1",
+    "winston": "^3.0.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "cross-env": "^5.2.0",

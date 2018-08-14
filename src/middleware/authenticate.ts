@@ -17,7 +17,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
       }
       req.user = user;
       req.token = token;
-      return next();
+      next();
     })
     .catch((err: any) => res.status(401).send());
 };

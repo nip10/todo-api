@@ -1,37 +1,94 @@
 # Todo API
+> Manage todos (add, edit, save) everywhere, live [here](https://p.dcdev.pt/todo/api)
+> This repo has 2 branches:
+  * Master: plain JS (ES6)
+  * Typescript: Typescript (v3)
 
-Nodejs API to manage todos.
-Check it live [here](https://www.p.dcdev.pt/todo/api/v1).
-Front-end webapp will be uploaded to a different repo.
+> Postman file included for testing
 
-# Tech
+<p align="center">
+<img src="http://via.placeholder.com/500x300">
+</p>
 
-- NodeJS (ES6 Javascript)
-- Web framework: Express
-- Database: MongoDB (w/ Mongoose)
-- Authentication: JWT
+## Getting Started
 
-# Usage
+### Pre-requisites
 
-1. Clone/Fork the repo
-2. Edit .env.sample and rename to .env
-3. Build app
-4. Deploy with 'npm start'
+* Node
+* NPM
+* MongoDB
 
-# Testing
+### Installing
 
-1. Test with 'npm run test'
+* Install packages
 
-# About
+```
+npm install
+```
 
-First project with an API. Used to practice and learn new stuff like JWT and es6 syntax. Also testing with Jest and Postman (file will be uploaded soon).
+* Build assets
 
-# API endpoints
+```
+npm run build
+```
 
-TBC
+* Edit .env.sample and rename to .env
 
-# What's missing
+```
+MONGODB_URI= MongoDB url (for prod/dev)
+MONGODB_URI_TEST= MongoDB url (for testing)
+PORT= Express prot
+JWT_SECRET= long/random string
+NODE_ENV= Environment (development, production, test)
+```
 
-- Rate limiting
+### Developing
 
-MIT Licence
+* Run in development mode
+
+```
+npm run watch
+```
+
+### Production
+
+* Run in production mode
+
+```
+npm start
+```
+
+### Testing
+
+* Run in test mode
+
+```
+npm run test
+```
+
+* Run in test mode (+ watching)
+
+```
+npm run test-watch
+```
+
+## Built With
+
+* Node (ES6)
+* Express (Web Framework)
+
+## Future improvements
+
+* Add rate limiting
+
+## API Documentation
+
+TODO - check routes files for now
+
+## Contributing
+
+Feel free to submit PR's.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details

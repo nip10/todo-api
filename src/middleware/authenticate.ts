@@ -10,7 +10,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
     return res.sendStatus(401);
   }
 
-  return User.schema.statics.findByToken(token)
+  return User.findByToken(token)
     .then((user: IUserDocument) => {
       if (!user) {
         return Promise.reject();

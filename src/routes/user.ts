@@ -33,7 +33,7 @@ router.post('/login', (req: Request, res: Response) => {
     return res.status(400).send({ error: 'Invalid email address' });
   }
   body.email = validator.normalizeEmail(body.email);
-  return User.schema.statics.findByCredentials(body.email, body.password)
+  return User.findByCredentials(body.email, body.password)
     .then((user: IUserDocument) => user.generateAuthToken().then((token: string) => {
       logger.info('User logged in', user._id);
       return res.header('x-auth', token).send(user);

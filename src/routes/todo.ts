@@ -64,10 +64,9 @@ router.patch('/:id', authenticate, (req: Request, res: Response) => {
   }
   const body = _.pick(req.body, ['text', 'completed']);
   if (_.isBoolean(body.completed) && body.completed) {
-    body.completedAt = new Date().getTime();
+    _.assign({ completedAt: new Date().getTime() }, body);
   } else {
-    body.completed = false;
-    body.completedAt = null;
+    _.assign({ completedAt: null, completed: false }, body);
   }
   return Todo.findOneAndUpdate({ _id: id, _creator: req.user._id }, { $set: body }, { new: true })
     .then(todo => {

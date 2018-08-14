@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import _ from 'lodash';
-import { ObjectID } from 'mongodb';
+import { Types } from "mongoose";
 
 import Todo from '../models/todo';
 import authenticate from '../middleware/authenticate';
@@ -23,7 +23,7 @@ router.get('/', authenticate, (req: Request, res: Response) =>
 
 router.get('/:id', authenticate, (req: Request, res: Response) => {
   const { id } = req.params;
-  if (!ObjectID.isValid(id)) {
+  if (!Types.ObjectId.isValid(id)) {
     return res.status(404).send();
   }
   return Todo.findOne({
@@ -41,7 +41,7 @@ router.get('/:id', authenticate, (req: Request, res: Response) => {
 
 router.delete('/:id', authenticate, (req: Request, res: Response) => {
   const { id } = req.params;
-  if (!ObjectID.isValid(id)) {
+  if (!Types.ObjectId.isValid(id)) {
     return res.status(404).send();
   }
   return Todo.findOneAndRemove({
@@ -59,7 +59,7 @@ router.delete('/:id', authenticate, (req: Request, res: Response) => {
 
 router.patch('/:id', authenticate, (req: Request, res: Response) => {
   const { id } = req.params;
-  if (!ObjectID.isValid(id)) {
+  if (!Types.ObjectId.isValid(id)) {
     return res.status(404).send();
   }
   const body = _.pick(req.body, ['text', 'completed']);

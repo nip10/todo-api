@@ -100,6 +100,18 @@
 				},
 				{
 					"name": "DELETE /todos/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "21bac455-91f5-4ef6-9274-c2fe7f7a1a59",
+								"type": "text/javascript",
+								"exec": [
+									"pm.environment.unset(\"todoId\");"
+								]
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -280,6 +292,18 @@
 				},
 				{
 					"name": "DELETE /users/me/token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0e132312-3980-43f6-b5f6-1eb97338654e",
+								"type": "text/javascript",
+								"exec": [
+									"pm.environment.unset(\"x-auth\");"
+								]
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [

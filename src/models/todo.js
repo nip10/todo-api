@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import { mongoose } from '../db/mongoose';
 
-const Todo = mongoose.model('Todo', {
+const TodoSchema = new mongoose.Schema({
   text: {
     type: String,
     required: true,
@@ -21,4 +21,4 @@ const Todo = mongoose.model('Todo', {
   },
 });
 
-module.exports = { Todo };
+module.exports = mongoose.model('Todo', TodoSchema);

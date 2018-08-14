@@ -198,6 +198,17 @@ describe('PATCH /todos/:id', () => {
       })
       .end(done);
   });
+  it('should return 404 on undefined todo id', done => {
+    const todoId = '!!!!!!!!!!!!!!!!!!!!!';
+    return request(app)
+      .patch(`/todos/${todoId}`)
+      .set('x-auth', users[1].tokens[0].token)
+      .expect(404)
+      .expect(res => {
+        expect(res.body.todo).toBeUndefined();
+      })
+      .end(done);
+  });
 });
 
 describe('GET /users/me', () => {
@@ -307,6 +318,47 @@ describe('POST /users/login', () => {
           })
           .catch(err2 => done(err2));
       }));
+  it('should reject invalid login (wrong email)', done =>
+    request(app)
+      .post('/users/login')
+      .send({
+        email: `a${users[1].email}`,
+        password: users[1].password,
+      })
+      .expect(400)
+      .expect(res => {
+        expect(res.headers['x-auth']).toBeUndefined();
+      })
+      .end((err, res) => {
+        if (err) return done(err);
+        return User.findById(users[1]._id)
+          .then(user => {
+            expect(user.tokens.length).toBe(1);
+            done();
+          })
+          .catch(err2 => done(err2));
+      }));
+  it('should reject invalid login (invalid email - validation error)', done =>
+    request(app)
+      .post('/users/login')
+      .send({
+        email: 'not_@an_email',
+        password: 'doesnt_matter',
+      })
+      .expect(400)
+      .expect(res => {
+        expect(res.headers['x-auth']).toBeUndefined();
+        expect(res.body).toHaveProperty('error', 'Invalid email address');
+      })
+      .end((err, res) => {
+        if (err) return done(err);
+        return User.findById(users[1]._id)
+          .then(user => {
+            expect(user.tokens.length).toBe(1);
+            done();
+          })
+          .catch(err2 => done(err2));
+      }));
 });
 
 describe('DELETE /users/me/token', () => {
@@ -324,4 +376,15 @@ describe('DELETE /users/me/token', () => {
           })
           .catch(err2 => done(err2));
       }));
+});
+
+describe('GET undefined route', () => {
+  it('should return 404 status and an error property', done =>
+    request(app)
+      .get('/made/up/route')
+      .expect(404)
+      .expect(res => {
+        expect(res.body).toHaveProperty('error', 'Page Not Found.');
+      })
+      .end(done));
 });

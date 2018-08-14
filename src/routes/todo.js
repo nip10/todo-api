@@ -1,11 +1,11 @@
-import express from 'express';
+import { Router } from 'express';
 import _ from 'lodash';
 import { ObjectID } from 'mongodb';
 
-import { Todo } from '../models/todo';
+import Todo from '../models/todo';
 import authenticate from '../middleware/authenticate';
 
-const router = express.Router();
+const router = Router();
 
 router.post('/', authenticate, (req, res) => {
   const todo = new Todo({
@@ -54,10 +54,9 @@ router.patch('/:id', authenticate, (req, res) => {
   if (!ObjectID.isValid(id)) return res.status(404).send();
   const body = _.pick(req.body, ['text', 'completed']);
   if (_.isBoolean(body.completed) && body.completed) {
-    body.completedAt = new Date().getTime();
+    _.assign(body, { completedAt: new Date().getTime() });
   } else {
-    body.completed = false;
-    body.completedAt = null;
+    _.assign(body, { completedAt: null, completed: false });
   }
   return Todo.findOneAndUpdate({ _id: id, _creator: req.user._id }, { $set: body }, { new: true })
     .then(todo => {

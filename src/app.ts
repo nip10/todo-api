@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import express, { Request, Response, NextFunction } from 'express';
 import _ from 'lodash';
+import helmet from 'helmet';
 
 import user from './routes/user';
 import todo from './routes/todo';
@@ -26,6 +27,8 @@ if (_.isNil(NODE_ENV)) {
 const isDev = NODE_ENV === 'development';
 
 const app = express();
+
+app.use(helmet());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

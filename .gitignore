@@ -1,4 +1,4 @@
 node_modules/
 .env
-playground/
 dist/
+todo.tasks

@@ -1,6 +1,13 @@
 import { mongoose } from '../db/mongoose';
 
-const Todo = new mongoose.Schema({
+export interface ITodoDocument extends mongoose.Document {
+  text: string,
+  completed: boolean,
+  completedAt: number,
+  _creator: mongoose.Schema.Types.ObjectId,
+}
+
+const TodoSchema = new mongoose.Schema({
   text: {
     type: String,
     required: true,
@@ -21,4 +28,4 @@ const Todo = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('Todo', Todo);
+export default mongoose.model<ITodoDocument>('Todo', TodoSchema);

@@ -1,7 +1,7 @@
 import { ObjectID } from 'mongodb';
 import jwt from 'jsonwebtoken';
-import { Todo } from '../../models/todo';
-import { User } from '../../models/user';
+import Todo from '../../models/todo';
+import User from '../../models/user';
 
 const userOneId = new ObjectID();
 const userTwoId = new ObjectID();

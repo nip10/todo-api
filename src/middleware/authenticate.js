@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { User } from '../models/user';
+import User from '../models/user';
 
 const authenticate = (req, res, next) => {
   const token = req.header('x-auth');

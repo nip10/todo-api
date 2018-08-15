@@ -80,6 +80,7 @@ npm run test-watch
 ## Future improvements
 
 * Add rate limiting
+* Increase test coverage
 
 ## API Documentation
 

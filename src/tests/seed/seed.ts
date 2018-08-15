@@ -4,10 +4,10 @@ import Todo from "../../models/todo";
 import User from "../../models/user";
 import logger from "../../utils/logger";
 
-const userOneId = new Types.ObjectID();
-const userTwoId = new Types.ObjectID();
+const userOneId = new Types.ObjectId();
+const userTwoId = new Types.ObjectId();
 
-const users = [
+export const users = [
   {
     _id: userOneId,
     email: "andrew@example.com",
@@ -32,14 +32,14 @@ const users = [
   },
 ];
 
-const todos = [
+export const todos = [
   {
-    _id: new Types.ObjectID(),
+    _id: new Types.ObjectId(),
     text: "First test todo",
     _creator: userOneId,
   },
   {
-    _id: new Types.ObjectID(),
+    _id: new Types.ObjectId(),
     text: "Second test todo",
     completed: true,
     completedAt: 333,
@@ -47,13 +47,13 @@ const todos = [
   },
 ];
 
-const populateTodos = done =>
+export const populateTodos = done =>
   Todo.remove({})
     .then(() => Todo.insertMany(todos))
     .then(() => done())
     .catch(err => logger.error("Error populating todos.", err));
 
-const populateUsers = done =>
+export const populateUsers = done =>
   User.remove({})
     .then(() => {
       const userOne = new User(users[0]).save();
@@ -62,5 +62,3 @@ const populateUsers = done =>
     })
     .then(() => done())
     .catch(err => logger.error("Error populating users.", err));
-
-module.exports = { todos, populateTodos, users, populateUsers };

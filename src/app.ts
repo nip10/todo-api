@@ -24,7 +24,7 @@ if (_.isNil(NODE_ENV)) {
   process.exit(1);
 }
 
-const isDev = NODE_ENV === 'development';
+const isProd = NODE_ENV === 'production';
 
 const app = express();
 
@@ -39,7 +39,7 @@ app.use('/todos', todo);
 // Handle 404s
 app.use((req: Request, res: Response) => {
   const err = new Error('Page Not Found.');
-  return res.status(404).json({ error: err });
+  return res.status(404).json({ error: err.message });
 });
 
 // Handle server errors
@@ -47,7 +47,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (res.headersSent) {
     return next(err);
   }
-  return res.status(500).json({ error: isDev ? err : 'Server error' });
+  return res.status(500).json({ error: isProd ? 'Server error' : err });
 });
 
 app.listen(PORT_N, () => {

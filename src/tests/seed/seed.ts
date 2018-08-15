@@ -47,13 +47,13 @@ export const todos = [
   },
 ];
 
-export const populateTodos = done =>
+export const populateTodos = (done: jest.DoneCallback) =>
   Todo.remove({})
     .then(() => Todo.insertMany(todos))
     .then(() => done())
     .catch(err => logger.error("Error populating todos.", err));
 
-export const populateUsers = done =>
+export const populateUsers = (done: jest.DoneCallback) =>
   User.remove({})
     .then(() => {
       const userOne = new User(users[0]).save();

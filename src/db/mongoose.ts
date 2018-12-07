@@ -26,6 +26,8 @@ const dburl = isTest ? MONGODB_URI_TEST : MONGODB_URI;
 const mongooseOptions = {
   reconnectTries: 10,
   useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
 };
 
 mongoose.connect(dburl, mongooseOptions)

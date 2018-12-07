@@ -1,5 +1,6 @@
 # Todo API
 [![Build Status](https://travis-ci.org/nip10/todo-api.svg?branch=master)](https://travis-ci.org/nip10/todo-api)
+[![codecov](https://codecov.io/gh/nip10/todo-api/branch/master/graph/badge.svg)](https://codecov.io/gh/nip10/todo-api)
 
 > Manage todos (add, edit, save) everywhere, live [here](https://p.dcdev.pt/todo/api)
 

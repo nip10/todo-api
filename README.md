@@ -1,8 +1,5 @@
 # Todo API
 > Manage todos (add, edit, save) everywhere, live [here](https://p.dcdev.pt/todo/api)
-> This repo has 2 branches:
-  * Master: plain JS (ES6)
-  * Typescript: Typescript (v3)
 
 > Postman file included for testing
 
@@ -69,11 +66,12 @@ npm run test
 * Run in test mode (+ watching)
 
 ```
-npm run test-watch
+npm run test:watch
 ```
 
 ## Built With
 
+* Typescript (v3)
 * Node (ES6)
 * Express (Web Framework)
 

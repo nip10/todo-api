@@ -75,7 +75,7 @@ UserSchema.methods.removeAuthToken = function (token: string) {
 
 // model >> User
 UserSchema.statics.findByToken = function (token: string) {
-  let decoded;
+  let decoded: any;
   try {
     decoded = jwt.verify(token, JWT_SECRET);
   } catch (err) {

@@ -6,6 +6,7 @@ import helmet from 'helmet';
 
 import user from './routes/user';
 import todo from './routes/todo';
+import index from './routes/index';
 
 import logger from './utils/logger';
 
@@ -33,6 +34,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use('/', index);
 app.use('/users', user);
 app.use('/todos', todo);
 

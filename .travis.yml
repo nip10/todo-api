@@ -3,16 +3,21 @@ node_js:
 - '10'
 cache:
   npm: true
+  directories:
+    - 'node_modules'
 services:
 - mongodb
 notifications:
   email: false
 script:
 - npm run lint
-- npm run test
+- npm run test:coverage
 - npm run build
 before_install:
 - npm install
+- npm install --global codecov
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 env:
   global:
     - secure: "IdLtCS2re+KHl72KUjjquseZUiWT1y25uvlULJ0hHxwSQLfwtO0/MC6p7RNPiPwCA2mkBuNflRf1LPV1fJ73+9SomeWItU0T69t1IrDVQwwisTiueeKmuykL4HQMTxBZsvoaNvtb4LVZwQeQnNLsBeEZy1eHDrcLYDnm7NV8mhWyt9rh5TaWqzkitzxMU4unEyU9L69TMVY+CRisufXF9B+yWtDf4vJ0N3a8AMQvrdIgfAW3RINV/Mej0Cnz0F0Jheg/0LhCOrg7NsfXQfFWJRbWsY+HB3xQXfTrUn88hoP6pvdqR0VA+5kmBgVntXej1hRdFXlFHyyV+6MTp8598pwW79mpIzE3uBs7dhML77Oo/HqS75kZ0h4//pLYBpBz/xtNfxCImn5AxONE+4mqhEXPOw6fGQ3HJT6X+BHeCv9fqivhlsFxdIw9F8ebZh7aC97z6eYzDUEjJRaRTTEYDWTqtwi9WtFe/kKWqBQfkmwLM6n9J1yrczEFSlkfO2bVyABP/kiAyWy/zH2S8tJFDjFr+TYxAZ1s1XAQeQrxCfbb8P1YYrcnXPecWLaVDSsw//1q3biCWKTEmH71MUOR2qT3zkRWDp/KXGILJ/+7PJvpTpsYhwc/SzCaULFezAkgPzt7lMtluVa8oBBmhGs9S2uWJDL2LazaAlx/SMDZHzs="

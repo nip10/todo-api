@@ -1,21 +1,21 @@
 language: node_js
 node_js:
-- '10'
+  - "10"
 cache:
   npm: true
   directories:
-    - 'node_modules'
+    - "node_modules"
 services:
-- mongodb
+  - mongodb
 notifications:
   email: false
 script:
-- npm run lint
-- npm run test:coverage
-- npm run build
-before_install:
-- npm install
-- npm install --global codecov
+  - npm run lint
+  - npm run test:coverage
+  - npm run build
+install:
+  - npm install
+  - npm install --global codecov
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 env:

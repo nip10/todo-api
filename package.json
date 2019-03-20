@@ -6,14 +6,14 @@
   "scripts": {
     "build": "babel src -d dist -x \".ts,.tsx\" -i types",
     "start": "cross-env NODE_ENV=production node dist/app.js",
-    "watch": "cross-env NODE_ENV=development concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
+    "watch": "cross-env NODE_ENV=development concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"yarn run watch:ts\" \"yarn run watch:node\"",
     "watch:ts": "tsc -w",
     "watch:node": "cross-env NODE_ENV=development nodemon dist/app.js",
     "test": "cross-env NODE_ENV=test jest --forceExit",
     "test:coverage": "cross-env NODE_ENV=test jest --forceExit --coverage",
-    "test:watch": "cross-env NODE_ENV=test npm run test -- --watchAll",
-    "debug": "npm run build && npm run debug-watch",
-    "debug:watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
+    "test:watch": "cross-env NODE_ENV=test yarn run test -- --watchAll",
+    "debug": "yarn run build && yarn run debug-watch",
+    "debug:watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"yarn run watch:ts\" \"yarn run debug:serve\"",
     "debug:serve": "nodemon --inspect dist/app.js",
     "lint": "tslint -c tslint.json -p tsconfig.json"
   },

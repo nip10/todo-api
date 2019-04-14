@@ -15,9 +15,11 @@ export const users = [
     tokens: [
       {
         access: "auth",
-        token: jwt.sign({ _id: userOneId, access: "auth" }, process.env.JWT_SECRET).toString(),
-      },
-    ],
+        token: jwt
+          .sign({ _id: userOneId, access: "auth" }, process.env.JWT_SECRET)
+          .toString()
+      }
+    ]
   },
   {
     _id: userTwoId,
@@ -26,25 +28,27 @@ export const users = [
     tokens: [
       {
         access: "auth",
-        token: jwt.sign({ _id: userTwoId, access: "auth" }, process.env.JWT_SECRET).toString(),
-      },
-    ],
-  },
+        token: jwt
+          .sign({ _id: userTwoId, access: "auth" }, process.env.JWT_SECRET)
+          .toString()
+      }
+    ]
+  }
 ];
 
 export const todos = [
   {
     _id: new Types.ObjectId(),
     text: "First test todo",
-    _creator: userOneId,
+    _creator: userOneId
   },
   {
     _id: new Types.ObjectId(),
     text: "Second test todo",
     completed: true,
     completedAt: 333,
-    _creator: userTwoId,
-  },
+    _creator: userTwoId
+  }
 ];
 
 export const populateTodos = (done: jest.DoneCallback) =>

@@ -1,5 +1,5 @@
-import * as Bluebird from 'bluebird';
+import * as Bluebird from "bluebird";
 
-declare module 'mongoose' {
+declare module "mongoose" {
   type Promise<T> = Bluebird<T>;
 }

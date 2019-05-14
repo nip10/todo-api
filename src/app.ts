@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
 import _ from "lodash";
 import helmet from "helmet";
-import cors, { CorsOptions } from "cors";
 
 import user from "./routes/user";
 import todo from "./routes/todo";
@@ -30,24 +29,6 @@ const isProd = NODE_ENV === "production";
 
 const app = express();
 
-const whitelist = [
-  "http://localhost:3000"
-  // `http://localhost:${CLIENT_DEV_PORT}`,
-  // `https://${BASE_URL}`,
-  // `https://www.${BASE_URL}`
-];
-const corsOptions: CorsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  exposedHeaders: ["x-auth"]
-};
-
-app.use(cors(corsOptions));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

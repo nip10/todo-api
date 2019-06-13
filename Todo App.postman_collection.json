@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b7b46ce6-7bd5-472e-af74-cef8f215af35",
+		"_postman_id": "1d471546-194c-4feb-bf48-1a70239f3431",
 		"name": "Todo App",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -18,7 +18,6 @@
 								"value": "{{x-auth}}"
 							}
 						],
-						"body": {},
 						"url": {
 							"raw": "{{url}}/todos",
 							"host": [
@@ -38,11 +37,11 @@
 							"listen": "test",
 							"script": {
 								"id": "b645b9a1-7dcf-4ad6-bbd0-0e0a47346f57",
-								"type": "text/javascript",
 								"exec": [
-									"var body = JSON.parse(pm.response.json());",
-									"pm.environment.set(\"todoId\", \"body._id\");"
-								]
+									"var body = pm.response.json();",
+									"pm.environment.set(\"todoId\", body._id);"
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -84,7 +83,6 @@
 								"value": "{{x-auth}}"
 							}
 						],
-						"body": {},
 						"url": {
 							"raw": "{{url}}/todos/{{todoId}}",
 							"host": [
@@ -124,7 +122,6 @@
 								"value": "{{x-auth}}"
 							}
 						],
-						"body": {},
 						"url": {
 							"raw": "{{url}}/todos/{{todoId}}",
 							"host": [
@@ -153,21 +150,8 @@
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "text",
-									"value": "Something edited to do",
-									"sessionValue": "Something edited to do",
-									"type": "text"
-								},
-								{
-									"key": "completed",
-									"value": "true",
-									"sessionValue": "true",
-									"type": "text"
-								}
-							]
+							"mode": "raw",
+							"raw": "{\n\t\"text\": \"something edited\",\n\t\"completed\": true\n}"
 						},
 						"url": {
 							"raw": "{{url}}/todos/{{todoId}}",
@@ -194,11 +178,11 @@
 							"listen": "test",
 							"script": {
 								"id": "e0a68435-a15b-4cc7-a67b-ebe7bb0ff590",
-								"type": "text/javascript",
 								"exec": [
 									"var token = postman.getResponseHeader('x-auth');",
 									"pm.environment.set('x-auth', token);"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -212,7 +196,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"test@test.com\",\n\t\"password\": \"password\"\n}"
+							"raw": "{\n\t\"email\": \"abc1@test.com\",\n\t\"password\": \"password\"\n}"
 						},
 						"url": {
 							"raw": "{{url}}/users",
@@ -236,7 +220,6 @@
 								"value": "{{x-auth}}"
 							}
 						],
-						"body": {},
 						"url": {
 							"raw": "{{url}}/users/me",
 							"host": [
@@ -257,11 +240,11 @@
 							"listen": "test",
 							"script": {
 								"id": "685b18d4-4a87-4aea-9fac-96dfb2bd188f",
-								"type": "text/javascript",
 								"exec": [
 									"var token = postman.getResponseHeader('x-auth');",
 									"pm.environment.set('x-auth', token);"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -275,7 +258,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"test@example.com\",\n\t\"password\": \"password\"\n}"
+							"raw": "{\n\t\"email\": \"abc1@test.com\",\n\t\"password\": \"password\"\n}"
 						},
 						"url": {
 							"raw": "{{url}}/users/login",
@@ -316,7 +299,6 @@
 								"value": "{{x-auth}}"
 							}
 						],
-						"body": {},
 						"url": {
 							"raw": "{{url}}/users/me/token",
 							"host": [

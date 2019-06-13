@@ -20,7 +20,7 @@ export interface IUserDocument extends mongoose.Document {
 }
 
 interface IUserModel extends mongoose.Model<IUserDocument> {
-  findByToken: (token: string) => Promise<IUserDocument> | any;
+  findByToken: (token: string) => Promise<IUserDocument>;
   findByCredentials: (
     email: string,
     password: string
@@ -58,16 +58,19 @@ UserSchema.methods.toJSON = function() {
 };
 
 // instance >> user
-UserSchema.methods.generateAuthToken = function() {
-  const user = this; // TODO: Replace the last 'user' by 'this'
+UserSchema.methods.generateAuthToken = async function() {
+  const user = this;
   const access = "auth";
   const token = jwt
     .sign({ _id: user._id.toHexString(), access }, JWT_SECRET)
     .toString();
-
   this.tokens.push({ access, token });
-
-  return this.save().then(() => token);
+  try {
+    await this.save();
+    return token;
+  } catch (error) {
+    return Promise.reject();
+  }
 };
 
 UserSchema.methods.removeAuthToken = function(token: string) {
@@ -109,7 +112,7 @@ UserSchema.statics.findByCredentials = function(
           if (isMatch) {
             resolve(user);
           }
-          reject();
+          reject("Invalid credentials");
         }
       );
     });
@@ -138,4 +141,5 @@ const User: IUserModel = mongoose.model<IUserDocument, IUserModel>(
   "User",
   UserSchema
 );
+
 export default User;

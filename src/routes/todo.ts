@@ -7,81 +7,88 @@ import authenticate from "../middleware/authenticate";
 
 const router: Router = Router();
 
-router.post("/", authenticate, (req: Request, res: Response) => {
-  const todo = new Todo({
-    text: req.body.text,
-    _creator: req.user._id
-  });
-  return todo
-    .save()
-    .then(doc => res.send(doc), (err: any) => res.status(400).send(err));
-});
-
-router.get("/", authenticate, (req: Request, res: Response) =>
-  Todo.find({
-    _creator: req.user._id
-  }).then(todos => res.send({ todos }), (err: any) => res.status(400).send(err))
-);
-
-router.get("/:id", authenticate, (req: Request, res: Response) => {
-  const { id } = req.params;
-  if (!Types.ObjectId.isValid(id)) {
-    return res.status(404).send();
+router.post("/", authenticate, async (req: Request, res: Response) => {
+  const { text } = req.body;
+  if (!_.isString(text) || !text.length) {
+    return res.status(400).json({ error: "Invalid text" });
   }
-  return Todo.findOne({
-    _id: id,
-    _creator: req.user._id
-  })
-    .then(todo => {
-      if (_.isNil(todo)) {
-        return res.status(404).send();
-      }
-      return res.send({ todo });
-    })
-    .catch((err: any) => res.status(400).send());
-});
-
-router.delete("/:id", authenticate, (req: Request, res: Response) => {
-  const { id } = req.params;
-  if (!Types.ObjectId.isValid(id)) {
-    return res.status(404).send();
+  const todo = new Todo({ text, _creator: req.user._id });
+  try {
+    const todoDoc = await todo.save();
+    return res.json(todoDoc);
+  } catch (error) {
+    return res.sendStatus(500);
   }
-  return Todo.findOneAndRemove({
-    _id: id,
-    _creator: req.user._id
-  })
-    .then(todo => {
-      if (_.isNil(todo)) {
-        return res.status(404).send();
-      }
-      return res.send({ todo });
-    })
-    .catch((err: any) => res.status(400).send());
 });
 
-router.patch("/:id", authenticate, (req: Request, res: Response) => {
+router.get("/", authenticate, async (req: Request, res: Response) => {
+  try {
+    const todos = await Todo.find({ _creator: req.user._id });
+    return res.json(todos);
+  } catch (error) {
+    return res.sendStatus(500);
+  }
+});
+
+router.get("/:id", authenticate, async (req: Request, res: Response) => {
   const { id } = req.params;
   if (!Types.ObjectId.isValid(id)) {
-    return res.status(404).send();
+    return res.status(400).json({ error: "Invalid ID" });
+  }
+  try {
+    const todo = await Todo.findOne({ _id: id, _creator: req.user._id });
+    if (_.isNil(todo)) {
+      return res.sendStatus(404);
+    }
+    return res.json(todo);
+  } catch (error) {
+    return res.sendStatus(500);
+  }
+});
+
+router.delete("/:id", authenticate, async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid ID" });
+  }
+  try {
+    const todo = await Todo.findOneAndRemove({
+      _id: id,
+      _creator: req.user._id
+    });
+    if (_.isNil(todo)) {
+      return res.sendStatus(404);
+    }
+    return res.json(todo);
+  } catch (error) {
+    return res.sendStatus(500);
+  }
+});
+
+router.patch("/:id", authenticate, async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid ID" });
   }
   const body = _.pick(req.body, ["text", "completed"]);
-  if (_.isBoolean(body.completed) && body.completed) {
+  if (body.completed && _.isBoolean(body.completed)) {
     _.assign(body, { completedAt: new Date().getTime() });
   } else {
     _.assign(body, { completedAt: null, completed: false });
   }
-  return Todo.findOneAndUpdate(
-    { _id: id, _creator: req.user._id },
-    { $set: body },
-    { new: true }
-  )
-    .then(todo => {
-      if (_.isNil(todo)) {
-        return res.status(404).send();
-      }
-      return res.send({ todo });
-    })
-    .catch((err: any) => res.status(400).send);
+  try {
+    const todo = await Todo.findOneAndUpdate(
+      { _id: id, _creator: req.user._id },
+      { $set: body },
+      { new: true }
+    );
+    if (_.isNil(todo)) {
+      return res.sendStatus(404);
+    }
+    return res.json(todo);
+  } catch (error) {
+    return res.sendStatus(500);
+  }
 });
 
 export default router;

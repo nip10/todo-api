@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
 import _ from "lodash";
 import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 
 import user from "./routes/user";
 import todo from "./routes/todo";
@@ -29,7 +30,13 @@ const isProd = NODE_ENV === "production";
 
 const app = express();
 
+const limiter = new rateLimit({
+  windowMs: 15 * 60 * 6000, // 15 minutes
+  max: 100 // limit each IP to 100 reqs/windowMs
+});
+
 app.use(helmet());
+app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

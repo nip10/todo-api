@@ -60,7 +60,7 @@ describe("GET /todos", () => {
       .set("x-auth", users[0].tokens[0].token)
       .expect(200)
       .expect((res: Response) => {
-        expect(res.body.todos.length).toBe(1);
+        expect(res.body.length).toBe(1);
       })
       .end(done));
 });
@@ -72,7 +72,7 @@ describe("GET /todos/:id", () => {
       .set("x-auth", users[0].tokens[0].token)
       .expect(200)
       .expect((res: Response) => {
-        expect(res.body.todo.text).toBe(todos[0].text);
+        expect(res.body.text).toBe(todos[0].text);
       })
       .end(done));
 
@@ -92,12 +92,12 @@ describe("GET /todos/:id", () => {
       .end(done);
   });
 
-  it("should return 404 non-object ids", done => {
+  it("should return 400 if ObjectId is invalid", done => {
     const id = "123";
     return request(app)
       .get(`/todos/${id}`)
       .set("x-auth", users[0].tokens[0].token)
-      .expect(404)
+      .expect(400)
       .end(done);
   });
 });
@@ -110,7 +110,7 @@ describe("DELETE /todos/:id", () => {
       .set("x-auth", users[1].tokens[0].token)
       .expect(200)
       .expect((res: Response) => {
-        expect(res.body.todo._id).toBe(hexId);
+        expect(res.body._id).toBe(hexId);
       })
       .end((err: any, res) => {
         if (err) {
@@ -153,12 +153,12 @@ describe("DELETE /todos/:id", () => {
       .end(done);
   });
 
-  it("should return 404 if ObjectId is invalid", done => {
+  it("should return 400 if ObjectId is invalid", done => {
     const id = "123";
     return request(app)
       .delete(`/todos/${id}`)
       .set("x-auth", users[1].tokens[0].token)
-      .expect(404)
+      .expect(400)
       .end(done);
   });
 });
@@ -173,9 +173,9 @@ describe("PATCH /todos/:id", () => {
       .send({ text, completed: true })
       .expect(200)
       .expect((res: Response) => {
-        expect(res.body.todo.text).toBe(text);
-        expect(res.body.todo.completed).toBe(true);
-        expect(typeof res.body.todo.completedAt).toBe("number");
+        expect(res.body.text).toBe(text);
+        expect(res.body.completed).toBe(true);
+        expect(typeof res.body.completedAt).toBe("number");
       })
       .end(done);
   });
@@ -200,18 +200,18 @@ describe("PATCH /todos/:id", () => {
       .send({ text, completed: false })
       .expect(200)
       .expect((res: Response) => {
-        expect(res.body.todo.text).toBe(text);
-        expect(res.body.todo.completed).toBe(false);
-        expect(res.body.todo.completedAt).toBeNull();
+        expect(res.body.text).toBe(text);
+        expect(res.body.completed).toBe(false);
+        expect(res.body.completedAt).toBeNull();
       })
       .end(done);
   });
-  it("should return 404 on undefined todo id", done => {
+  it("should return 400 if ObjectId is invalid", done => {
     const todoId = "!!!!!!!!!!!!!!!!!!!!!";
     return request(app)
       .patch(`/todos/${todoId}`)
       .set("x-auth", users[1].tokens[0].token)
-      .expect(404)
+      .expect(400)
       .expect((res: Response) => {
         expect(res.body.todo).toBeUndefined();
       })
@@ -247,7 +247,7 @@ describe("POST /users", () => {
     return request(app)
       .post("/users")
       .send({ email, password })
-      .expect(200)
+      .expect(201)
       .expect((res: Response) => {
         expect(res.header["x-auth"]).not.toBeNull();
         expect(res.body._id).not.toBeNull();
@@ -323,6 +323,7 @@ describe("POST /users/login", () => {
       .expect(400)
       .expect((res: Response) => {
         expect(res.header["x-auth"]).toBeUndefined();
+        expect(res.body.error).toBeDefined();
       })
       .end((err: any, res) => {
         if (err) {
@@ -345,6 +346,7 @@ describe("POST /users/login", () => {
       .expect(400)
       .expect((res: Response) => {
         expect(res.header["x-auth"]).toBeUndefined();
+        expect(res.body.error).toBeDefined();
       })
       .end((err: any, res) => {
         if (err) {

@@ -343,10 +343,9 @@ describe("POST /users/login", () => {
         email: `a${users[1].email}`,
         password: users[1].password
       })
-      .expect(400)
+      .expect(500)
       .expect((res: Response) => {
         expect(res.header["x-auth"]).toBeUndefined();
-        expect(res.body.error).toBeDefined();
       })
       .end((err: any, res) => {
         if (err) {

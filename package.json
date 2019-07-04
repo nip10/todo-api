@@ -15,7 +15,9 @@
     "debug": "yarn run build && yarn run debug-watch",
     "debug:watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"yarn run watch:ts\" \"yarn run debug:serve\"",
     "debug:serve": "nodemon --inspect dist/app.js",
-    "lint": "tslint -c tslint.json -p tsconfig.json"
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "keywords": [
     "api",
@@ -45,7 +47,8 @@
     "mongodb": "^3.2.7",
     "mongoose": "^5.5.15",
     "validator": "^11.0.0",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "snyk": "^1.190.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -82,5 +85,6 @@
     "roots": [
       "src/tests"
     ]
-  }
+  },
+  "snyk": true
 }

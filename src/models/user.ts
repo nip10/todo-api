@@ -1,7 +1,7 @@
 import { mongoose } from "../db/mongoose";
 import jwt from "jsonwebtoken";
 import _ from "lodash";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import logger from "../utils/logger";
 
 const { JWT_SECRET } = process.env;
@@ -96,45 +96,26 @@ UserSchema.statics.findByToken = function(token: string) {
   });
 };
 
-UserSchema.statics.findByCredentials = function(
+UserSchema.statics.findByCredentials = async function(
   email: string,
   password: string
 ) {
-  return this.findOne({ email }).then((user: IUserDocument) => {
-    if (!user) {
-      return Promise.reject();
-    }
-    return new Promise((resolve, reject) => {
-      bcrypt.compare(
-        password,
-        user.password,
-        (err: mongoose.Error, isMatch: boolean) => {
-          if (isMatch) {
-            resolve(user);
-          }
-          reject("Invalid credentials");
-        }
-      );
-    });
-  });
+  const user = await this.findOne({ email });
+  if (!user) {
+    return Promise.reject();
+  }
+  const isMatch = bcrypt.compare(password, user.password);
+  return isMatch ? Promise.resolve(user) : Promise.reject("Invalid credentials");
 };
 
-UserSchema.pre("save", function(this: IUserDocument, next) {
+// @ts-ignore
+UserSchema.pre<IUserDocument>("save", async function(this: IUserDocument) {
   if (!this.isModified("password")) {
-    return next();
+    return Promise.reject();
   }
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) {
-      return next(err);
-    }
-    bcrypt.hash(this.password, salt, (err2: mongoose.Error, hash) => {
-      if (err2) {
-        return next(err);
-      }
-      this.password = hash;
-      next();
-    });
-  });
+  const hashedPassword = await bcrypt.hash(this.password, 10);
+  this.password = hashedPassword;
+  return Promise.resolve();
 });
 
 const User: IUserModel = mongoose.model<IUserDocument, IUserModel>(

@@ -104,8 +104,10 @@ UserSchema.statics.findByCredentials = async function(
   if (!user) {
     return Promise.reject();
   }
-  const isMatch = bcrypt.compare(password, user.password);
-  return isMatch ? Promise.resolve(user) : Promise.reject("Invalid credentials");
+  const isMatch = await bcrypt.compare(password, user.password);
+  return isMatch
+    ? Promise.resolve(user)
+    : Promise.reject("Invalid credentials");
 };
 
 // @ts-ignore

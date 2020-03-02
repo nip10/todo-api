@@ -295,7 +295,7 @@ describe('POST /users', () => {
           return User.findOne({ email })
             .then(user => {
               expect(user).not.toBeNull();
-              expect(user.password).not.toBe(password);
+              expect(user!.password).not.toBe(password);
               done();
             })
             .catch(err2 => done(err2));
@@ -345,8 +345,9 @@ describe('POST /users/login', () => {
           }
           return User.findById(users[1]._id)
             .then(user => {
-              expect(user.tokens[1]).toHaveProperty('access', 'auth');
-              expect(user.tokens[1]).toHaveProperty('token', res.header['x-auth']);
+              expect(user).not.toBeNull();
+              expect(user!.tokens[1]).toHaveProperty('access', 'auth');
+              expect(user!.tokens[1]).toHaveProperty('token', res.header['x-auth']);
               done();
             })
             .catch(err2 => done(err2));
@@ -371,7 +372,8 @@ describe('POST /users/login', () => {
           }
           return User.findById(users[1]._id)
             .then(user => {
-              expect(user.tokens.length).toBe(1);
+              expect(user).not.toBeNull();
+              expect(user!.tokens.length).toBe(1);
               done();
             })
             .catch(err2 => done(err2));
@@ -395,7 +397,8 @@ describe('POST /users/login', () => {
           }
           return User.findById(users[1]._id)
             .then(user => {
-              expect(user.tokens.length).toBe(1);
+              expect(user).not.toBeNull();
+              expect(user!.tokens.length).toBe(1);
               done();
             })
             .catch(err2 => done(err2));
@@ -420,7 +423,8 @@ describe('POST /users/login', () => {
           }
           return User.findById(users[1]._id)
             .then(user => {
-              expect(user.tokens.length).toBe(1);
+              expect(user).not.toBeNull();
+              expect(user!.tokens.length).toBe(1);
               done();
             })
             .catch(err2 => done(err2));
@@ -441,7 +445,8 @@ describe('DELETE /users/me/token', () => {
           }
           return User.findById(users[0]._id)
             .then(user => {
-              expect(user.tokens.length).toBe(0);
+              expect(user).not.toBeNull();
+              expect(user!.tokens.length).toBe(0);
               done();
             })
             .catch(err2 => done(err2));

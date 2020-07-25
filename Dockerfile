@@ -3,7 +3,8 @@ FROM node:14-alpine
 
 # Configuração do usuário/permissões
 USER node
-WORKDIR /home/node/
+RUN mkdir /home/node/todo-api
+WORKDIR /home/node/todo-api
 
 # Instalação das dependências
 COPY package.json .

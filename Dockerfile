@@ -14,4 +14,4 @@ RUN yarn install
 COPY . .
 
 # Execução
-CMD ["yarn", "start"]
+CMD ["yarn", "test"]

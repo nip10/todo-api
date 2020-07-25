@@ -9,7 +9,7 @@ services:
       - .:/home/node
       - /home/node/node_modules
     ports:
-      - 3000:3000
+      - 3001:3001
     command: yarn start
     depends_on:
       - mongo

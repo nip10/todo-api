@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - 3001:3001
+    networks:
+      - todo-api-app
+    command: yarn test
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    #environment:
+      #MONGO_INITDB_ROOT_USERNAME: root
+      #MONGO_INITDB_ROOT_PASSWORD: toorpassword
+    ports:
+      - 27018:27017
+    networks:
+      - todo-api-app
+    volumes:
+      - mongo-todo-api:/data/db
+
+volumes:
+  mongo-todo-api:
+
+networks:
+  todo-api-app:
+    driver: bridge

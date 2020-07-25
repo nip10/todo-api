@@ -13,5 +13,7 @@ RUN yarn install
 # Copia dos arquivos do projeto
 COPY . .
 
+EXPOSE 3001
+
 # Execução
 CMD ["yarn", "test"]

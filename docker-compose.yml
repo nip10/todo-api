@@ -5,12 +5,9 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    volumes:
-      - .:/home/node
-      - /home/node/node_modules
     ports:
       - 3001:3001
-    command: yarn start
+    command: yarn test
     depends_on:
       - mongo
 
@@ -20,6 +17,6 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: toor
     ports:
-      - 27017:27017
+      - 27018:27018
     volumes:
       - ./volumes/db:/data/db

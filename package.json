@@ -40,7 +40,7 @@
     "lodash": "^4.17.20",
     "mongodb": "^3.6.2",
     "mongoose": "^5.10.7",
-    "validator": "^13.1.17",
+    "validator": "^13.5.2",
     "winston": "^3.3.3"
   },
   "devDependencies": {

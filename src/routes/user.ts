@@ -19,10 +19,7 @@ router.post('/', async (req: Request, res: Response) => {
     await user.save();
     const token = await user.generateAuthToken();
     logger.info('New user signup:', user._id);
-    return res
-      .status(201)
-      .header('x-auth', token)
-      .json(user);
+    return res.status(201).header('x-auth', token).json(user);
   } catch (error) {
     if (error.code === 11000) {
       // MongoDB 11000 = duplicate record

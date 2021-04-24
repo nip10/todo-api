@@ -8,7 +8,7 @@ export interface ITodoDocument extends mongoose.Document {
   _creator: mongoose.Schema.Types.ObjectId;
 }
 
-const TodoSchema = new mongoose.Schema({
+const TodoSchema = new mongoose.Schema<ITodoDocument>({
   text: {
     type: String,
     required: true,

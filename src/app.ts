@@ -1,4 +1,3 @@
-import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import express, { Request, Response, NextFunction } from 'express';
 import _ from 'lodash';
@@ -38,8 +37,8 @@ const limiter = rateLimit({
 
 app.use(helmet());
 app.use(limiter);
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/', index);
 app.use('/users', user);

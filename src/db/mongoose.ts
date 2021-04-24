@@ -20,7 +20,7 @@ if (_.isNil(MONGODB_URI_TEST)) {
 
 const isTest = NODE_ENV === 'test';
 const dburl = isTest ? MONGODB_URI_TEST : MONGODB_URI;
-console.log("db url", dburl);
+console.log('db url', dburl);
 
 (mongoose as any).Promise = Bluebird;
 
@@ -37,7 +37,7 @@ mongoose.connect(dburl, mongooseOptions).then(
   },
   (err: any) => {
     logger.log('error', 'Connection to the database failed. %s', err);
-    console.log("error on db", err);
+    console.log('error on db', err);
     //process.exit(1);
   },
 );

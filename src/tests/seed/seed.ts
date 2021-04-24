@@ -54,9 +54,10 @@ export const todos = [
 
 export const populateTodos = (done: jest.DoneCallback) =>
   Todo.deleteMany({})
+    // @ts-ignore
     .then(() => Todo.insertMany(todos))
     .then(() => done())
-    .catch(err => logger.error('Error populating todos.', err));
+    .catch((err) => logger.error('Error populating todos.', err));
 
 export const populateUsers = (done: jest.DoneCallback) =>
   User.deleteMany({})
@@ -66,4 +67,4 @@ export const populateUsers = (done: jest.DoneCallback) =>
       return Promise.all([userOne, userTwo]);
     })
     .then(() => done())
-    .catch(err => logger.error('Error populating users.', err));
+    .catch((err) => logger.error('Error populating users.', err));

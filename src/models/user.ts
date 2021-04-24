@@ -15,7 +15,6 @@ if (_.isNil(JWT_SECRET)) {
 export interface IUserDocument extends mongoose.Document {
   password: string;
   tokens: any[];
-  toJSON: () => void;
   removeAuthToken: (token: string) => Promise<void>;
   generateAuthToken: () => Promise<string>;
 }
@@ -26,7 +25,7 @@ interface IUserModel extends mongoose.Model<IUserDocument> {
   findByCredentials: (email: string, password: string) => Promise<IUserDocument>;
 }
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema<IUserDocument, IUserModel>({
   email: {
     type: String,
     required: true,
@@ -51,13 +50,13 @@ const UserSchema = new mongoose.Schema({
   ],
 });
 
-UserSchema.methods.toJSON = function() {
+UserSchema.methods.toJSON = function () {
   const userObject = this.toObject();
   return _.pick(userObject, ['_id', 'email']);
 };
 
 // instance >> user
-UserSchema.methods.generateAuthToken = async function() {
+UserSchema.methods.generateAuthToken = async function () {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
   const access = 'auth';
@@ -71,7 +70,7 @@ UserSchema.methods.generateAuthToken = async function() {
   }
 };
 
-UserSchema.methods.removeAuthToken = function(token: string) {
+UserSchema.methods.removeAuthToken = function (token: string) {
   return this.updateOne({
     $pull: {
       tokens: { token },
@@ -80,7 +79,7 @@ UserSchema.methods.removeAuthToken = function(token: string) {
 };
 
 // model >> User
-UserSchema.statics.findByToken = function(token: string) {
+UserSchema.statics.findByToken = function (token: string) {
   let decoded: any;
   try {
     decoded = jwt.verify(token, JWT_SECRET);
@@ -94,7 +93,7 @@ UserSchema.statics.findByToken = function(token: string) {
   });
 };
 
-UserSchema.statics.findByCredentials = async function(email: string, password: string) {
+UserSchema.statics.findByCredentials = async function (email: string, password: string) {
   const user = await this.findOne({ email });
   if (!user) {
     return Promise.reject();
@@ -104,7 +103,7 @@ UserSchema.statics.findByCredentials = async function(email: string, password: s
 };
 
 // @ts-ignore
-UserSchema.pre<IUserDocument>('save', async function(this: IUserDocument) {
+UserSchema.pre<IUserDocument>('save', async function (this: IUserDocument) {
   if (!this.isModified('password')) {
     return Promise.reject();
   }

@@ -1,5 +1,5 @@
 import request, { Response } from 'supertest';
-import mongoose, { Types } from 'mongoose';
+import { Types } from 'mongoose';
 
 import app from '../app';
 import Todo from '../models/todo';
@@ -29,7 +29,7 @@ describe('POST /todos', () => {
             .then((dbTodos) => {
               expect(dbTodos.length).toBe(1);
               expect(dbTodos[0].text).toBe(text);
-              done();
+              done('ok');
             })
             .catch((err2: any) => done(err2));
         });
@@ -50,7 +50,7 @@ describe('POST /todos', () => {
           return Todo.find()
             .then((dbTodos) => {
               expect(dbTodos.length).toBe(2);
-              done();
+              done('ok');
             })
             .catch((err2) => done(err2));
         }),
@@ -126,7 +126,7 @@ describe('DELETE /todos/:id', () => {
           return Todo.findById(hexId)
             .then((todo) => {
               expect(todo).toBeNull();
-              done();
+              done('ok');
             })
             .catch((err2) => done(err2));
         });
@@ -147,7 +147,7 @@ describe('DELETE /todos/:id', () => {
           return Todo.findById(hexId)
             .then((todo) => {
               expect(todo).not.toBeNull();
-              done();
+              done('ok');
             })
             .catch((err2) => done(err2));
         });
@@ -280,7 +280,7 @@ describe('POST /users', () => {
             .then((user) => {
               expect(user).not.toBeNull();
               expect(user!.password).not.toBe(password);
-              done();
+              done('ok');
             })
             .catch((err2) => done(err2));
         });
@@ -324,7 +324,7 @@ describe('POST /users/login', () => {
               expect(user).not.toBeNull();
               expect(user!.tokens[1]).toHaveProperty('access', 'auth');
               expect(user!.tokens[1]).toHaveProperty('token', res.header['x-auth']);
-              done();
+              done('ok');
             })
             .catch((err2) => done(err2));
         }),
@@ -350,7 +350,7 @@ describe('POST /users/login', () => {
             .then((user) => {
               expect(user).not.toBeNull();
               expect(user!.tokens.length).toBe(1);
-              done();
+              done('ok');
             })
             .catch((err2) => done(err2));
         }),
@@ -375,7 +375,7 @@ describe('POST /users/login', () => {
             .then((user) => {
               expect(user).not.toBeNull();
               expect(user!.tokens.length).toBe(1);
-              done();
+              done('ok');
             })
             .catch((err2) => done(err2));
         }),
@@ -401,7 +401,7 @@ describe('POST /users/login', () => {
             .then((user) => {
               expect(user).not.toBeNull();
               expect(user!.tokens.length).toBe(1);
-              done();
+              done('ok');
             })
             .catch((err2) => done(err2));
         }),
@@ -423,7 +423,7 @@ describe('DELETE /users/me/token', () => {
             .then((user) => {
               expect(user).not.toBeNull();
               expect(user!.tokens.length).toBe(0);
-              done();
+              done('ok');
             })
             .catch((err2) => done(err2));
         }),

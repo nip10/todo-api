@@ -1,14 +1,11 @@
 module.exports = {
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.json',
-    },
-  },
-  moduleFileExtensions: ['ts', 'js'],
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  clearMocks: true,
+  // maxWorkers: 1,
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   testMatch: ['**/src/tests/**.test.(ts|js)'],
-  testEnvironment: 'node',
   collectCoverageFrom: ['src/**/*.ts', '!node_modules'],
 };

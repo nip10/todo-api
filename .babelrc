@@ -1,4 +1,19 @@
 {
-  "presets": ["@babel/env", "@babel/preset-typescript"],
-  "plugins": []
+  "presets": [
+    [
+      "@babel/env",
+      {
+        // "useBuiltIns": "usage",
+        "targets": {
+          "node": true
+        }
+      }
+    ],
+    "@babel/preset-typescript"
+  ],
+  "ignore": ["**/*.d.ts"],
+  "plugins": [
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/plugin-proposal-nullish-coalescing-operator"
+  ]
 }
